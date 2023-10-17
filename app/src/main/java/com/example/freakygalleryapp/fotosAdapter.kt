@@ -1,6 +1,7 @@
 package com.example.freakygalleryapp
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -30,6 +31,7 @@ class fotosAdapter(private val fotos: List<Foto>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var isImageFitToScreen = false
+
         holder.bind(fotos[position])
         holder.binding.foto.setOnClickListener {
             if (isImageFitToScreen) {
