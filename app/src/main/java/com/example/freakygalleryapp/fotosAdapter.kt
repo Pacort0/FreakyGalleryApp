@@ -1,25 +1,26 @@
 package com.example.freakygalleryapp
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.freakygalleryapp.databinding.ItemfotosBinding
 
-class fotosAdapter(private val fotos: List<Foto>) :
+//Clase fotosAdapter, desde la que controlaremos la galería de fotos
+//Recibe por parámetros una lista de fotos y una función de tipo fotoPulsadaListener
+class fotosAdapter(private val fotos: List<Foto>,
+    private val fotoPulsadaListener: fotoPulsadaListener) :
     RecyclerView.Adapter<fotosAdapter.ViewHolder>() {
+    //Creamos la clase ViewHolder, que recibe una variable binding de tipo ItemfotosBinding
     class ViewHolder(val binding: ItemfotosBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        //Función bind, recibe un objeto de tipo foto y muestra la imagen correspondiente a su URL en la galería
         fun bind(foto: Foto) {
             Glide.with(binding.root.context)
                 .load(foto.url)
-                .into(binding.foto)
+                .into(binding.fotoGaleria)
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemfotosBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -30,29 +31,10 @@ class fotosAdapter(private val fotos: List<Foto>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var isImageFitToScreen = false
-
         holder.bind(fotos[position])
-        holder.binding.foto.setOnClickListener {
-            if (isImageFitToScreen) {
-                isImageFitToScreen = false
-                holder.binding.foto.layoutParams =
-                    LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                holder.binding.linearL.setPadding(0,10,0,0)
-                holder.binding.foto.adjustViewBounds = false
-            } else {
-                isImageFitToScreen = true
-                holder.binding.foto.layoutParams =
-                    LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                    )
-                holder.binding.linearL.setPadding(0,0,0,0)
-                holder.binding.foto.adjustViewBounds = true
-            }
+        //Cuando se pulse una foto, llamamos a la función fotoPulsadaListener
+        holder.itemView.setOnClickListener {
+            fotoPulsadaListener.fotoPulsada(fotos[position])
         }
     }
 }
