@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.freakygalleryapp.databinding.FotosBinding
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,18 +14,15 @@ class MainActivity : AppCompatActivity() {
         val fotosBinding = FotosBinding.inflate(layoutInflater)
         setContentView(fotosBinding.root)
 
+        var lista = mutableListOf<Foto>()
+        for(i in 0 until 100){
+            var random = Random.nextInt()
+            var url = "https://loremflickr.com/320/240?lock=$random"
+            lista.add(Foto(url))
+        }
+
         fotosBinding.vistafotos.adapter = fotosAdapter(
-            listOf(
-                Foto(url = "https://loremflickr.com/320/240?lock=1"),
-                Foto(url = "https://loremflickr.com/320/240?lock=2"),
-                Foto(url = "https://loremflickr.com/320/240?lock=3"),
-                Foto(url = "https://loremflickr.com/320/240?lock=4"),
-                Foto(url = "https://loremflickr.com/320/240?lock=5"),
-                Foto(url = "https://loremflickr.com/320/240?lock=6"),
-                Foto(url = "https://loremflickr.com/320/240?lock=7"),
-                Foto(url = "https://loremflickr.com/320/240?lock=8"),
-                Foto(url = "https://loremflickr.com/320/240?lock=9"),
-            ),
+            lista,
             object : fotoPulsadaListener {
                 override fun fotoPulsada(fotos: Foto) {
                     //Al pulsar un contacto, nos marca el número para hacer una llamada
