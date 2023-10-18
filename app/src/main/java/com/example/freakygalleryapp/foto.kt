@@ -1,7 +1,6 @@
 package com.example.freakygalleryapp
 
-import java.net.URL
-
+//Clase de datos que define los objetos de tipo Foto
 data class Foto(val url:String){
 
 }
